@@ -22,6 +22,9 @@
 #define DEFAULT_USB_CURRENT 500
 extern int custom_ac_current;
 extern int custom_usb_current;
+<<<<<<< HEAD
 extern int custom_current;
+=======
+>>>>>>> fed2cb3... thundercharge control v2.0
 extern int mswitch;
 #endif
