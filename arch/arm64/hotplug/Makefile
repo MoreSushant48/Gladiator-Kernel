@@ -7,6 +7,7 @@ obj-$(CONFIG_THUNDERPLUG_CONTROL) += thunderplug.o
 obj-$(CONFIG_CLUSTER_PLUG)	+= cluster_plug.o
 obj-$(CONFIG_LAZYPLUG)		+= lazyplug.o
 CFLAGS_lazyplug.o		+= -finline-functions
+obj-$(CONFIG_MAKO_HOTPLUG) 	+= mako_hotplug.o
 
 obj-$(CONFIG_MSM_SLEEPER) 	+= msm_sleeper.o
 
