@@ -165,7 +165,7 @@ static DEFINE_PER_CPU(struct smartmax_info_s, smartmax_info);
 
 #if SMARTMAX_DEBUG
 #define dprintk(flag,msg...) do { \
-	if (debug_mask & flag) printk(KERN_DEBUG "[smartmax]" ":" msg); \
+	if (debug_mask & flag) printk(KERN_DEBUG "[" GOVERNOR_NAME "]" ":" msg); \
 	} while (0)
 #else
 #define dprintk(flag,msg...)
@@ -212,15 +212,6 @@ static struct early_suspend smartmax_early_suspend_handler;
 #define LATENCY_MULTIPLIER			(1000)
 #define MIN_LATENCY_MULTIPLIER			(100)
 
-static int cpufreq_governor_smartmax(struct cpufreq_policy *policy,
-		unsigned int event);
-
-#ifndef CONFIG_CPU_FREQ_DEFAULT_GOV_SMARTMAX
-static
-#endif
-struct cpufreq_governor cpufreq_gov_smartmax = { .name = "smartmax", .governor =
-		cpufreq_governor_smartmax, .max_transition_latency = 9000000, .owner =
-		THIS_MODULE , };
 
 //static inline cputime64_t get_cpu_idle_time_jiffy(unsigned int cpu,
 //		cputime64_t *wall) {
@@ -975,7 +966,7 @@ static struct attribute * smartmax_attributes[] = {
 	NULL , };
 
 static struct attribute_group smartmax_attr_group = { .attrs =
-		smartmax_attributes, .name = "smartmax", };
+		smartmax_attributes, .name = GOVERNOR_NAME, };
 
 static int cpufreq_smartmax_boost_task(void *data) {
 	struct cpufreq_policy *policy;
@@ -1096,7 +1087,7 @@ static const struct input_device_id dbs_ids[] = { { .driver_info = 1 }, { }, };
 
 static struct input_handler dbs_input_handler = { .event = dbs_input_event,
 		.connect = dbs_input_connect, .disconnect = dbs_input_disconnect,
-		.name = "cpufreq_smartmax", .id_table = dbs_ids, };
+		.name = CPUFR_NAME, .id_table = dbs_ids, };
 
 #ifdef CONFIG_HAS_EARLYSUSPEND
 static void smartmax_early_suspend(struct early_suspend *h)
@@ -1116,7 +1107,7 @@ static void smartmax_late_resume(struct early_suspend *h)
 }
 #endif
 
-static int cpufreq_governor_smartmax(struct cpufreq_policy *new_policy,
+static int FUNC_NAME(struct cpufreq_policy *new_policy,
 		unsigned int event) {
 	unsigned int cpu = new_policy->cpu;
 	int rc;
@@ -1263,17 +1254,7 @@ static int __init cpufreq_smartmax_init(void) {
 	smartmax_early_suspend_handler.level = EARLY_SUSPEND_LEVEL_DISABLE_FB + 100;
 #endif
 	
-	return cpufreq_register_governor(&cpufreq_gov_smartmax);
-}
-
-#ifdef CONFIG_CPU_FREQ_DEFAULT_GOV_SMARTMAX
-fs_initcall(cpufreq_smartmax_init);
-#else
-module_init(cpufreq_smartmax_init);
-#endif
-
-static void __exit cpufreq_smartmax_exit(void) {
-	cpufreq_unregister_governor(&cpufreq_gov_smartmax);
+	return cpufreq_register_governor(&STRUCT_NAME);
 }
 
 module_exit(cpufreq_smartmax_exit);
@@ -1281,6 +1262,3 @@ module_exit(cpufreq_smartmax_exit);
 MODULE_AUTHOR("maxwen");
 MODULE_DESCRIPTION("'cpufreq_smartmax' - A smart cpufreq governor");
 MODULE_LICENSE("GPL");
-
-
-
