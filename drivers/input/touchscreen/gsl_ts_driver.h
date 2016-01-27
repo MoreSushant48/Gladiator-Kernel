@@ -20,21 +20,21 @@
 #include <linux/gpio.h>
 #include <linux/mutex.h>
 #include <linux/sensors.h>
-#include <linux/wakelock.h>
 
 #if defined(CONFIG_FB)
 #include <linux/notifier.h>
 #include <linux/fb.h>
+#elif defined(CONFIG_HAS_POWERSUSPEND)
+#include <linux/powersuspend.h>
 #endif
 
-//#define GSL_DEBUG		//调试信息开关，打开则输出调试信息
-#define GSL_TIMER		//定时器开关
-#define TPD_PROC_DEBUG	//proc文件系统接口红开关
+//#define GSL_DEBUG		
+#define GSL_TIMER		
+#define TPD_PROC_DEBUG	
 #define GSL9XX_VDDIO_1800  1
 //#define GSL_REPORT_POINT_SLOT
 //#define GSL_PROXIMITY_SENSOR //Proximity sensor replaced by touch panel
 #define GSL_GESTURE			 //Resuming the circcity by touch panel
-#define GSL_GESTURE_WAKELOCK_DUR msecs_to_jiffies(200)
 
 /*define i2c addr and device name*/
 #define GSL_TS_ADDR 				0x40
@@ -108,8 +108,12 @@ struct gsl_ts_data{
 	struct input_dev 		*input_dev_ps;
 	struct sensors_classdev ps_cdev;
 #endif
+	struct work_struct		work;
+	struct workqueue_struct 	*wq;
 	#if defined(CONFIG_FB)
 	struct notifier_block fb_notif;
+	#elif defined(CONFIG_HAS_EARLYSUSPEND)
+	struct early_suspend pm;
 	#endif
 
 	struct gsl_touch_info		*cinfo;
@@ -122,7 +126,6 @@ struct gsl_ts_data{
 	struct workqueue_struct	*timer_wq;
 	volatile int gsl_timer_flag;	//0:first test	1:second test 2:doing gsl_load_fw
 	unsigned int gsl_timer_data;		
-	u32 watchdog_counter;
 #endif
 #if GSL_HAVE_TOUCH_KEY
 	int gsl_key_state;
@@ -130,11 +133,6 @@ struct gsl_ts_data{
 	#if 0
 	struct gsl_ts_platform_data *pdata;
 	#endif
-
-	struct mutex hw_lock;
-#ifdef GSL_GESTURE
-	struct wake_lock gesture_wake_lock;
-#endif
 };
 
 #ifdef GSL_PROXIMITY_SENSOR
@@ -204,3 +202,4 @@ static struct fw_config_type gsl_cfg_table[9] = {
 /*7*/{NULL,0,NULL,0},
 /*8*/{NULL,0,NULL,0},
 };
+
