@@ -32,8 +32,8 @@
 #if defined(CONFIG_FB)
 #include <linux/notifier.h>
 #include <linux/fb.h>
-#elif defined(CONFIG_HAS_POWERSUSPEND) 
-#include <linux/powersuspend.h>
+#elif defined(CONFIG_HAS_EARLYSUSPEND) 
+#include <linux/earlysuspend.h>
 #endif
 #include <linux/firmware.h>
 #include <linux/proc_fs.h>
