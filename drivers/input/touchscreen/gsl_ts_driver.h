@@ -24,8 +24,8 @@
 #if defined(CONFIG_FB)
 #include <linux/notifier.h>
 #include <linux/fb.h>
-#elif defined(CONFIG_HAS_EARLYSUSPEND)
-#include <linux/earlysuspend.h>
+#elif defined(CONFIG_HAS_POWERSUSPEND)
+#include <linux/powersuspend.h>
 #endif
 
 //#define GSL_DEBUG		
