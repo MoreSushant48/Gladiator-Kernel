@@ -2347,16 +2347,21 @@ static ssize_t mdss_mdp_dyn_pu_store(struct device *dev,
 	return count;
 }
 
+
 static DEVICE_ATTR(vsync_event, S_IRUGO, mdss_mdp_vsync_show_event, NULL);
 static DEVICE_ATTR(ad, S_IRUGO | S_IWUSR | S_IWGRP, mdss_mdp_ad_show,
 	mdss_mdp_ad_store);
+
 static DEVICE_ATTR(dyn_pu, S_IRUGO | S_IWUSR | S_IWGRP, mdss_mdp_dyn_pu_show,
 	mdss_mdp_dyn_pu_store);
+
 
 static struct attribute *mdp_overlay_sysfs_attrs[] = {
 	&dev_attr_vsync_event.attr,
 	&dev_attr_ad.attr,
+
 	&dev_attr_dyn_pu.attr,
+
 	NULL,
 };
 
@@ -2990,6 +2995,8 @@ static int mdss_mdp_histo_ioctl(struct msm_fb_data_type *mfd, u32 cmd,
 
 	if (!mdata)
 		return -EPERM;
+
+
 
 	switch (cmd) {
 	case MSMFB_HISTOGRAM_START:
@@ -4225,7 +4232,9 @@ int mdss_mdp_overlay_init(struct msm_fb_data_type *mfd)
 			rc = 0;
 		}
 	}
+
 	mdp5_data->dyn_pu_state = mfd->panel_info->partial_update_enabled;
+
 
 	if (mdss_mdp_pp_overlay_init(mfd))
 		pr_warn("Failed to initialize pp overlay data.\n");

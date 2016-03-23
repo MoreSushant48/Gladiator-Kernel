@@ -1182,22 +1182,28 @@ static int __qseecom_process_incomplete_cmd(struct qseecom_dev_handle *data,
 
 		if (ptr_svc == NULL) {
 			pr_err("Listener Svc %d does not exist\n", lstnr);
+
 			__qseecom_qseos_fail_return_resp_tz(data, resp,
 					&send_data_rsp, ptr_svc, lstnr);
+
 			return -EINVAL;
 		}
 
 		if (!ptr_svc->ihandle) {
 			pr_err("Client handle is not initialized\n");
+
 			__qseecom_qseos_fail_return_resp_tz(data, resp,
 					&send_data_rsp, ptr_svc, lstnr);
+
 			return -EINVAL;
 		}
 
 		if (ptr_svc->svc.listener_id != lstnr) {
 			pr_warn("Service requested does not exist\n");
+
 			__qseecom_qseos_fail_return_resp_tz(data, resp,
 					&send_data_rsp, ptr_svc, lstnr);
+
 			return -ERESTARTSYS;
 		}
 		pr_debug("waking up rcv_req_wq and waiting for send_resp_wq\n");

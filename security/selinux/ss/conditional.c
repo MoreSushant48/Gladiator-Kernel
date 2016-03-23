@@ -15,7 +15,9 @@
 
 #include "security.h"
 #include "conditional.h"
+
 #include "services.h"
+
 
 /*
  * cond_evaluate_expr evaluates a conditional expr
@@ -619,6 +621,7 @@ int cond_write_list(struct policydb *p, struct cond_node *list, void *fp)
 	return 0;
 }
 
+
 void cond_compute_operation(struct avtab *ctab, struct avtab_key *key,
 		struct operation_decision *od)
 {
@@ -650,7 +653,9 @@ void cond_compute_av(struct avtab *ctab, struct avtab_key *key,
 				node = avtab_search_node_next(node, key->specified)) {
 		if ((u16)(AVTAB_ALLOWED|AVTAB_ENABLED) ==
 		    (node->key.specified & (AVTAB_ALLOWED|AVTAB_ENABLED)))
+
 			avd->allowed |= node->datum.u.data;
+
 		if ((u16)(AVTAB_AUDITDENY|AVTAB_ENABLED) ==
 		    (node->key.specified & (AVTAB_AUDITDENY|AVTAB_ENABLED)))
 			/* Since a '0' in an auditdeny mask represents a
@@ -658,6 +663,7 @@ void cond_compute_av(struct avtab *ctab, struct avtab_key *key,
 			 * the '&' operand to ensure that all '0's in the mask
 			 * are retained (much unlike the allow and auditallow cases).
 			 */
+
 			avd->auditdeny &= node->datum.u.data;
 		if ((u16)(AVTAB_AUDITALLOW|AVTAB_ENABLED) ==
 		    (node->key.specified & (AVTAB_AUDITALLOW|AVTAB_ENABLED)))
@@ -665,6 +671,7 @@ void cond_compute_av(struct avtab *ctab, struct avtab_key *key,
 		if ((node->key.specified & AVTAB_ENABLED) &&
 				(node->key.specified & AVTAB_OP))
 			services_compute_operation_type(ops, node);
+
 	}
 	return;
 }

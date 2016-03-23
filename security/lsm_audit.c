@@ -245,6 +245,7 @@ static void dump_common_audit_data(struct audit_buffer *ab,
 		}
 		break;
 	}
+
 	case LSM_AUDIT_DATA_IOCTL_OP: {
 		struct inode *inode;
 
@@ -260,6 +261,7 @@ static void dump_common_audit_data(struct audit_buffer *ab,
 		audit_log_format(ab, " ioctlcmd=%hx", a->u.op->cmd);
 		break;
 	}
+
 	case LSM_AUDIT_DATA_DENTRY: {
 		struct inode *inode;
 

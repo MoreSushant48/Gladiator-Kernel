@@ -521,6 +521,7 @@ static struct msm_vidc_ctrl msm_vdec_ctrls[] = {
 		.menu_skip_mask = 0,
 		.qmenu = NULL,
 	},
+
 	{
 		.id = V4L2_CID_MPEG_VIDC_VIDEO_PRIORITY,
 		.name = "Session Priority",
@@ -2220,6 +2221,7 @@ static int try_set_ctrl(struct msm_vidc_inst *inst, struct v4l2_ctrl *ctrl)
 			ctrl->val ? "Enabling" : "Disabling");
 		pdata = &hal_property;
 		break;
+
 	case V4L2_CID_MPEG_VIDC_VIDEO_PRIORITY:
 		property_id = HAL_CONFIG_REALTIME;
 		hal_property.enable = ctrl->val;

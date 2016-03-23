@@ -34,14 +34,18 @@
 #define POLICYDB_VERSION_NEW_OBJECT_DEFAULTS	27
 #define POLICYDB_VERSION_DEFAULT_TYPE	28
 #define POLICYDB_VERSION_CONSTRAINT_NAMES	29
+
 #define POLICYDB_VERSION_IOCTL_OPERATIONS	30
+
 
 /* Range of policy versions we understand*/
 #define POLICYDB_VERSION_MIN   POLICYDB_VERSION_BASE
 #ifdef CONFIG_SECURITY_SELINUX_POLICYDB_VERSION_MAX
 #define POLICYDB_VERSION_MAX	CONFIG_SECURITY_SELINUX_POLICYDB_VERSION_MAX_VALUE
 #else
+
 #define POLICYDB_VERSION_MAX	POLICYDB_VERSION_IOCTL_OPERATIONS
+
 #endif
 
 /* Mask for just the mount related flags */
@@ -55,7 +59,9 @@
 #define SE_SBINITIALIZED	0x10
 #define SE_SBPROC		0x20
 #define SE_SBLABELSUPP	0x40
+
 #define SE_SBGENFS	0x80
+
 
 #define CONTEXT_STR	"context="
 #define FSCONTEXT_STR	"fscontext="
@@ -105,6 +111,7 @@ struct av_decision {
 	u32 flags;
 };
 
+
 #define security_operation_set(perms, x) (perms[x >> 5] |= 1 << (x & 0x1f))
 #define security_operation_test(perms, x) (1 & (perms[x >> 5] >> (x & 0x1f)))
 
@@ -130,15 +137,18 @@ struct operation {
 	u32 type[8];	/* 256 types */
 };
 
+
 /* definitions of av_decision.flags */
 #define AVD_FLAGS_PERMISSIVE	0x0001
 
 void security_compute_av(u32 ssid, u32 tsid,
+
 			 u16 tclass, struct av_decision *avd,
 			 struct operation *ops);
 
 void security_compute_operation(u32 ssid, u32 tsid, u16 tclass,
 			 u8 type, struct operation_decision *od);
+
 
 void security_compute_av_user(u32 ssid, u32 tsid,
 			     u16 tclass, struct av_decision *avd);

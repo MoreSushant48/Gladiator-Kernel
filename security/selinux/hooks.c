@@ -708,12 +708,14 @@ static int selinux_set_mnt_opts(struct super_block *sb,
 	}
 
 	if (strcmp(sb->s_type->name, "proc") == 0)
+
 		sbsec->flags |= SE_SBPROC | SE_SBGENFS;
 
 	if (!strcmp(sb->s_type->name, "debugfs") ||
 	    !strcmp(sb->s_type->name, "sysfs") ||
 	    !strcmp(sb->s_type->name, "pstore"))
 		sbsec->flags |= SE_SBGENFS;
+
 
 	/* Determine the labeling behavior to use for this filesystem type. */
 	rc = security_fs_use((sbsec->flags & SE_SBPROC) ? "proc" : sb->s_type->name, &sbsec->behavior, &sbsec->sid);
@@ -1198,6 +1200,7 @@ static inline u16 socket_type_to_security_class(int family, int type, int protoc
 	return SECCLASS_SOCKET;
 }
 
+
 static int selinux_genfs_get_sid(struct dentry *dentry,
 				 u16 tclass,
 				 u16 flags,
@@ -1205,6 +1208,7 @@ static int selinux_genfs_get_sid(struct dentry *dentry,
 {
 	int rc;
 	struct super_block *sb = dentry->d_inode->i_sb;
+
 	char *buffer, *path;
 
 	buffer = (char *)__get_free_page(GFP_KERNEL);
@@ -1215,6 +1219,7 @@ static int selinux_genfs_get_sid(struct dentry *dentry,
 	if (IS_ERR(path))
 		rc = PTR_ERR(path);
 	else {
+
 		if (flags & SE_SBPROC) {
 			/* each process gets a /proc/PID/ entry. Strip off the
 			 * PID part to get a valid selinux labeling.
@@ -1225,10 +1230,13 @@ static int selinux_genfs_get_sid(struct dentry *dentry,
 			}
 		}
 		rc = security_genfs_sid(sb->s_type->name, path, tclass, sid);
+
 	}
 	free_page((unsigned long)buffer);
 	return rc;
 }
+
+
 
 /* The inode's security attributes must be initialized before first use. */
 static int inode_doinit_with_dentry(struct inode *inode, struct dentry *opt_dentry)
@@ -1383,7 +1391,9 @@ static int inode_doinit_with_dentry(struct inode *inode, struct dentry *opt_dent
 		/* Default to the fs superblock SID. */
 		isec->sid = sbsec->sid;
 
+
 		if ((sbsec->flags & SE_SBGENFS) && !S_ISLNK(inode->i_mode)) {
+
 			/* We must have a dentry to determine the label on
 			 * procfs inodes */
 			if (opt_dentry)
@@ -1406,8 +1416,10 @@ static int inode_doinit_with_dentry(struct inode *inode, struct dentry *opt_dent
 			if (!dentry)
 				goto out_unlock;
 			isec->sclass = inode_mode_to_security_class(inode->i_mode);
+
 			rc = selinux_genfs_get_sid(dentry, isec->sclass,
 						   sbsec->flags, &sid);
+
 			dput(dentry);
 			if (rc)
 				goto out_unlock;
@@ -3162,6 +3174,7 @@ static void selinux_file_free_security(struct file *file)
 	file_free_security(file);
 }
 
+
 /*
  * Check whether a task has the ioctl permission and cmd
  * operation to an inode.
@@ -3199,6 +3212,7 @@ int ioctl_has_perm(const struct cred *cred, struct file *file,
 out:
 	return rc;
 }
+
 
 static int selinux_file_ioctl(struct file *file, unsigned int cmd,
 			      unsigned long arg)
@@ -3242,7 +3256,9 @@ static int selinux_file_ioctl(struct file *file, unsigned int cmd,
 	 * to the file's ioctl() function.
 	 */
 	default:
+
 		error = ioctl_has_perm(cred, file, FILE__IOCTL, (u16) cmd);
+
 	}
 	return error;
 }

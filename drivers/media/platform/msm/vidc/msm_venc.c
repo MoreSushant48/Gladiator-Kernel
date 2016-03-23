@@ -1063,6 +1063,7 @@ static struct msm_vidc_ctrl msm_venc_ctrls[] = {
 		.step = 1,
 		.qmenu = NULL,
 	},
+
 	{
 		.id = V4L2_CID_MPEG_VIDC_VIDEO_PRIORITY,
 		.name = "Session Priority",
@@ -2574,6 +2575,7 @@ static int try_set_ctrl(struct msm_vidc_inst *inst, struct v4l2_ctrl *ctrl)
 			rc = -ENOTSUPP;
 			break;
 		}
+
 		break;
 	case V4L2_CID_MPEG_VIDC_VIDEO_H264_VUI_BITSTREAM_RESTRICT:
 		property_id = HAL_PARAM_VENC_H264_VUI_BITSTREAM_RESTRC;

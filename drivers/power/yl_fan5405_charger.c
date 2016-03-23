@@ -1347,6 +1347,7 @@ static void fan5405_external_power_changed(struct power_supply *psy)
 			"could not read USB current_max property, rc=%d\n", rc);
 	else {
 #ifdef CONFIG_THUNDERCHARGE_CONTROL
+<<<<<<< HEAD
         if(!((prop.intval / 1000) == 0))
         {
             if(mswitch==1) {
@@ -1369,6 +1370,18 @@ static void fan5405_external_power_changed(struct power_supply *psy)
         chip->set_ivbus_max = prop.intval / 1000;
 #endif
 
+=======
+        if(!((prop.intval / 1000) ==0))
+        {
+        pr_info("Using custom current of %d",custom_current);
+		chip->set_ivbus_max = custom_current;
+        }
+        else
+        chip->set_ivbus_max = 0;
+#else
+        chip->set_ivbus_max = prop.intval / 1000;
+#endif
+>>>>>>> upstream/Yup_CM13.0
 		}
 
 
@@ -1440,7 +1453,11 @@ static int fan5405_parse_dt(struct fan5405_chip *chip)
 		return -EINVAL;
 
 #ifdef CONFIG_THUNDERCHARGE_CONTROL
+<<<<<<< HEAD
 	chip->chg_curr_max = custom_ac_current;
+=======
+	chip->chg_curr_max = custom_current;
+>>>>>>> upstream/Yup_CM13.0
 #else
 	rc = of_property_read_u32(node, "yl,max-charge-current-mA", &chip->chg_curr_max);
 	if (rc < 0)
@@ -1880,3 +1897,4 @@ module_i2c_driver(fan5405_driver);
 MODULE_DESCRIPTION("FAN5405 charger IC driver");
 MODULE_LICENSE("GPL v2");
 MODULE_ALIAS("i2c:fan5405_charger");
+
