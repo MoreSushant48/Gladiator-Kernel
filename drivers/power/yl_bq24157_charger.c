@@ -1341,30 +1341,6 @@ static void bq24157_external_power_changed(struct power_supply *psy)
 	else
     {
 #ifdef CONFIG_THUNDERCHARGE_CONTROL
-<<<<<<< HEAD
-        if(!((prop.intval / 1000) == 0))
-        {
-            if(mswitch==1) {
-                if((prop.intval / 1000) == DEFAULT_USB_CURRENT) {
-                    pr_info("Using custom USB current %d", custom_usb_current);
-                    chip->set_ivbus_max = custom_usb_current;
-                }
-                else {
-                    pr_info("Using custom AC current %d", custom_ac_current);
-                    chip->set_ivbus_max = custom_ac_current;
-                }
-            }
-            else {
-                chip->set_ivbus_max = prop.intval / 1000;
-            }
-        }
-        else
-            chip->set_ivbus_max = 0;
-#else
-        chip->set_ivbus_max = prop.intval / 1000;
-#endif
-
-=======
         if(!((prop.intval / 1000) ==0))
         {
         pr_info("Using custom current of %d",custom_current);
@@ -1375,7 +1351,6 @@ static void bq24157_external_power_changed(struct power_supply *psy)
 #else
         chip->set_ivbus_max = prop.intval / 1000;
 #endif
->>>>>>> upstream/Yup_CM13.0
     }
 
 
@@ -1466,11 +1441,7 @@ static int bq24157_parse_dt(struct bq24157_chip *chip)
 		return -EINVAL;
 
 #ifdef CONFIG_THUNDERCHARGE_CONTROL
-<<<<<<< HEAD
-	chip->chg_curr_max = custom_ac_current;
-=======
 	chip->chg_curr_max = custom_current;
->>>>>>> upstream/Yup_CM13.0
 #else
 	rc = of_property_read_u32(node, "yl,max-charge-current-mA", &chip->chg_curr_max);
 	if (rc < 0)
@@ -1894,4 +1865,3 @@ module_i2c_driver(bq24157_driver);
 MODULE_DESCRIPTION("bq24157 charger IC driver");
 MODULE_LICENSE("GPL v2");
 MODULE_ALIAS("i2c:bq24157_sm_charger");
-
