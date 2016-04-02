@@ -145,14 +145,10 @@ second_not_hardboot:
 
 	/* Start new image. */
 	ldr	x4, arm64_kexec_kimage_start
-<<<<<<< HEAD
-	mov	x0, xzr
-=======
 	ldr	x0, arm64_kexec_dtb_addr
 	str	x4, [x22, #8]
 	str	x0, [x22, #16]
 	str	xzr, [x22, #24]
->>>>>>> 289db3581... Implement kexec-hardboot
 	mov	x1, xzr
 	mov	x2, xzr
 	mov	x3, xzr
@@ -185,6 +181,13 @@ loop:	b	loop
  */
 .globl arm64_kexec_kimage_start
 arm64_kexec_kimage_start:
+	.quad	0x0
+
+/*
+ * arm64_kexec_dtb_addr - Physical address of a device tree.
+ */
+.globl arm64_kexec_dtb_addr
+arm64_kexec_dtb_addr:
 	.quad	0x0
 
 /*
