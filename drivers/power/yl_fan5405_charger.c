@@ -30,9 +30,6 @@
 #include <linux/wakelock.h>
 #include <linux/qpnp/power-on.h>
 #include "yl_pm8916_vbus.h"
-#ifdef CONFIG_THUNDERCHARGE_CONTROL
-#include "thundercharge_control.h"
-#endif
 
 struct fan5405_chip {
 	struct device         *dev;
@@ -1346,21 +1343,6 @@ static void fan5405_external_power_changed(struct power_supply *psy)
 		dev_err(chip->dev,
 			"could not read USB current_max property, rc=%d\n", rc);
 <<<<<<< HEAD
-	else {
-#ifdef CONFIG_THUNDERCHARGE_CONTROL
-        if(!((prop.intval / 1000) ==0))
-        {
-        pr_info("Using custom current of %d",custom_current);
-		chip->set_ivbus_max = custom_current;
-        }
-        else
-        chip->set_ivbus_max = 0;
-#else
-        chip->set_ivbus_max = prop.intval / 1000;
-#endif
-		}
-=======
-<<<<<<< HEAD
 	else
 		chip->set_ivbus_max = prop.intval / 1000;
 =======
@@ -1390,7 +1372,6 @@ static void fan5405_external_power_changed(struct power_supply *psy)
 
 		}
 >>>>>>> 827a39a... thundercharge control v2.0
->>>>>>> fed2cb3... thundercharge control v2.0
 
 
 	rc = fan5405_set_ivbus_max(chip, chip->set_ivbus_max); //VBUS CURRENT
@@ -1461,21 +1442,14 @@ static int fan5405_parse_dt(struct fan5405_chip *chip)
 		return -EINVAL;
 
 <<<<<<< HEAD
-#ifdef CONFIG_THUNDERCHARGE_CONTROL
-	chip->chg_curr_max = custom_current;
-#else
-=======
-<<<<<<< HEAD
 =======
 #ifdef CONFIG_THUNDERCHARGE_CONTROL
 	chip->chg_curr_max = custom_ac_current;
 #else
 >>>>>>> 827a39a... thundercharge control v2.0
->>>>>>> fed2cb3... thundercharge control v2.0
 	rc = of_property_read_u32(node, "yl,max-charge-current-mA", &chip->chg_curr_max);
 	if (rc < 0)
 		return -EINVAL;
-#endif
 	chip->chg_curr_now = chip->chg_curr_max;
 	
 	rc = of_property_read_u32(node, "yl,term-current-mA", &chip->iterm_ma);

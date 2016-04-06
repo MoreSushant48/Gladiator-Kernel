@@ -1,5 +1,5 @@
 /*
- * Copyright ï¿½ 2015, Varun Chitre "varun.chitre15" <varun.chitre15@gmail.com>
+ * Copyright © 2015, Varun Chitre "varun.chitre15" <varun.chitre15@gmail.com>
  *
  * Charger Control driver for yl_bq24157_charger and yl_fan5405_charger
  *
@@ -13,24 +13,18 @@
  * GNU General Public License for more details.
  *
  */
+
 #include <linux/module.h>
 #include <linux/kobject.h>
 #include <linux/sysfs.h>
 #include <linux/kernel.h>
 #include "thundercharge_control.h"
 
-<<<<<<< HEAD
-int mswitch=1;
-int custom_current=1250;
-int mswitch=0;
-int custom_current=1100;
-=======
 #define ENABLED             0
 #define AC_CURRENT          1100
 #define USB_CURRENT         500
 #define MAX_VBUS_CURRENT    1500
 #define THUNDERCHARGE       "thundercharge"
->>>>>>> fed2cb3... thundercharge control v2.0
 
 int mswitch = ENABLED;
 int custom_ac_current = AC_CURRENT;
@@ -172,8 +166,3 @@ module_exit(charger_control_remove);
 MODULE_LICENSE("GPL and additional rights");
 MODULE_AUTHOR("Varun Chitre <varun.chitre15@gmail.com>");
 MODULE_DESCRIPTION("BQ24157 Charger control driver");
-<<<<<<< HEAD
-
-
-=======
->>>>>>> fed2cb3... thundercharge control v2.0
