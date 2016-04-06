@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright © 2015, Varun Chitre "varun.chitre15" <varun.chitre15@gmail.com>
+=======
+ * Copyright ï¿½ 2015, Varun Chitre "varun.chitre15" <varun.chitre15@gmail.com>
+>>>>>>> upstream/Yup_CM13.0
  *
  * Kernel header for yl_bq24157_charger Control driver
  *
@@ -15,8 +19,12 @@
  */
 #ifndef __THUNDERCHARGE_CONTROL_H__
 #define __THUNDERCHARGE_CONTROL_H__
+<<<<<<< HEAD
 #define DEFAULT_USB_CURRENT 500
 extern int custom_ac_current;
 extern int custom_usb_current;
+=======
+extern int custom_current;
+>>>>>>> upstream/Yup_CM13.0
 extern int mswitch;
 #endif
