@@ -171,6 +171,19 @@ config CPU_FREQ_DEFAULT_GOV_YANKACTIVE
  	bool "yankactive"
  	select CPU_FREQ_GOV_YANKACTIVE
 
+config CPU_FREQ_DEFAULT_GOV_NIGHTMARE
+	bool "nightmare"
+	select CPU_FREQ_GOV_NIGHTMARE
+
+config CPU_FREQ_DEFAULT_GOV_BLU_ACTIVE
+       bool "blu_active"
+       select CPU_FREQ_GOV_BLU_ACTIVE
+       help
+       Use the CPUFreq governor 'blu_active' as default. This allows
+       you to get a full dynamic cpu frequency capable system by simply
+       loading your cpufreq low-level hardware driver, using the
+       'interactive' governor for latency-sensitive workloads.
+
 endchoice
 
 config CPU_FREQ_GOV_PERFORMANCE
@@ -326,6 +339,9 @@ config CPU_FREQ_GOV_PMC
   	select CPU_FREQ_TABLE	
   	help	
     	'smartmax' tweaked for absolute battery
+
+config CPU_FREQ_GOV_NIGHTMARE
+	tristate "'nightmare' cpufreq policy governor"
 
 config CPU_BOOST
 	tristate "Event base short term CPU freq boost"
