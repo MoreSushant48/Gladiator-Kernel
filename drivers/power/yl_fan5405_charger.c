@@ -30,6 +30,9 @@
 #include <linux/wakelock.h>
 #include <linux/qpnp/power-on.h>
 #include "yl_pm8916_vbus.h"
+#ifdef CONFIG_THUNDERCHARGE_CONTROL
+#include "thundercharge_control.h"
+#endif
 
 struct fan5405_chip {
 	struct device         *dev;
@@ -1342,8 +1345,6 @@ static void fan5405_external_power_changed(struct power_supply *psy)
 	if (rc < 0)
 		dev_err(chip->dev,
 			"could not read USB current_max property, rc=%d\n", rc);
-	else
-		chip->set_ivbus_max = prop.intval / 1000;
 	else {
 #ifdef CONFIG_THUNDERCHARGE_CONTROL
         if(!((prop.intval / 1000) == 0))
@@ -1444,6 +1445,7 @@ static int fan5405_parse_dt(struct fan5405_chip *chip)
 	rc = of_property_read_u32(node, "yl,max-charge-current-mA", &chip->chg_curr_max);
 	if (rc < 0)
 		return -EINVAL;
+#endif
 	chip->chg_curr_now = chip->chg_curr_max;
 	
 	rc = of_property_read_u32(node, "yl,term-current-mA", &chip->iterm_ma);

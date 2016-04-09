@@ -13,16 +13,15 @@
  * GNU General Public License for more details.
  *
  */
-
 #include <linux/module.h>
 #include <linux/kobject.h>
 #include <linux/sysfs.h>
 #include <linux/kernel.h>
 #include "thundercharge_control.h"
 
-#define ENABLED             0
-#define AC_CURRENT          1350
-#define USB_CURRENT         500
+#define ENABLED             1
+#define AC_CURRENT          1300
+#define USB_CURRENT         1250
 #define MAX_VBUS_CURRENT    1500
 #define THUNDERCHARGE       "thundercharge"
 
